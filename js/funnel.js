@@ -154,3 +154,82 @@
 
   show(0);
 })();
+
+/* ---------- Judi's VSL: YouTube underneath, our own look on top ----------
+   YouTube's title, logo and controls are hidden: the player is taller than the frame, so its
+   chrome sits in the cropped letterbox, and a cover on top takes every click. It autoplays muted
+   (captions are burned in); one tap restarts it from the top with sound. */
+(() => {
+  'use strict';
+  const fig = document.querySelector('[data-yt]');
+  if (!fig) return;
+  const id = fig.dataset.yt;
+  const cover = fig.querySelector('[data-cover]');
+  const sound = fig.querySelector('[data-sound]');
+  const end = fig.querySelector('[data-ytend]');
+  const again = fig.querySelector('[data-replay]');
+  const label = sound.querySelector('span:last-child');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let player = null;
+  let withSound = false;
+
+  const set = (state) => { fig.dataset.state = state; };
+  set('loading');
+  sound.hidden = false;
+  if (reduceMotion) label.textContent = 'Play the video with sound';
+
+  const startWithSound = () => {
+    if (!player) return;
+    withSound = true;
+    sound.hidden = true;
+    end.hidden = true;
+    player.unMute();
+    player.setVolume(100);
+    player.seekTo(0, true);
+    player.playVideo();
+  };
+
+  window.onYouTubeIframeAPIReady = () => {
+    player = new window.YT.Player('yt-player', {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: id,
+      playerVars: {
+        autoplay: reduceMotion ? 0 : 1, mute: 1, controls: 0, disablekb: 1, fs: 0,
+        iv_load_policy: 3, modestbranding: 1, playsinline: 1, rel: 0, cc_load_policy: 0,
+        origin: window.location.origin,
+      },
+      events: {
+        onReady: (e) => {
+          e.target.mute();
+          if (!reduceMotion) e.target.playVideo();
+          else set('paused');
+        },
+        onStateChange: (e) => {
+          const S = window.YT.PlayerState;
+          if (e.data === S.PLAYING) { set('playing'); end.hidden = true; }
+          else if (e.data === S.PAUSED) set('paused');
+          else if (e.data === S.ENDED) {
+            set('ended');
+            end.hidden = false;
+            sound.hidden = true;
+          }
+        },
+      },
+    });
+  };
+
+  sound.addEventListener('click', startWithSound);
+  cover.addEventListener('click', () => {
+    if (!player) return;
+    if (!withSound) { startWithSound(); return; }
+    const S = window.YT.PlayerState;
+    if (player.getPlayerState() === S.PLAYING) player.pauseVideo();
+    else player.playVideo();
+  });
+  again.addEventListener('click', startWithSound);
+
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  tag.async = true;
+  document.head.appendChild(tag);
+})();
