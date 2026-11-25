@@ -233,3 +233,39 @@
   tag.async = true;
   document.head.appendChild(tag);
 })();
+
+/* ---------- booking page: switch to "Done" once OnceHub confirms the booking ---------- */
+(() => {
+  'use strict';
+  const booked = document.querySelector('[data-booked]');
+  if (!booked) return;
+  const done = () => {
+    if (!booked.hidden) return;
+    const label = document.querySelector('[data-progress-label]');
+    const bar = document.querySelector('[data-progress] .progress__bar span');
+    const title = document.querySelector('[data-book-title]');
+    const note = document.querySelector('[data-book-note]');
+    const help = document.querySelector('[data-book-help]');
+    if (label) label.textContent = 'Done';
+    if (bar) bar.style.width = '100%';
+    if (title) title.textContent = 'You’re booked in.';
+    if (note) note.textContent = 'Your confirmation is on its way to your email. Here’s how to get the most from your conversation with Judi.';
+    if (help) help.hidden = true;
+    document.title = 'You’re booked in | Money Confidence with Judi';
+    booked.hidden = false;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    // Meta pixel goes here later: fire Schedule (Brandon: only for qualified answers).
+  };
+  window.judiBooked = done;
+  if (window.__judiBookedData) done();
+  // Backup: OnceHub's newer embeds post a message when a booking is scheduled.
+  window.addEventListener('message', (e) => {
+    let host = '';
+    try { host = new URL(e.origin).hostname; } catch (err) { return; }
+    if (!/oncehub\.com$/.test(host)) return;
+    const d = e.data;
+    const type = typeof d === 'string' ? d : (d && (d.type || d.event || d.eventName)) || '';
+    if (/booking\.scheduled|booking_scheduled|bookingScheduled/i.test(String(type))) done();
+  });
+})();

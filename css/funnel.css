@@ -261,3 +261,9 @@ body {
 .vsl__end p { font-size: var(--step-lead); font-weight: 600; letter-spacing: -0.02em; }
 .vsl__end .button { white-space: normal; }
 .vsl__again { font-size: var(--step-small); text-decoration: underline; text-underline-offset: 0.2em; padding: 0.4rem 1rem; color: var(--on-dark-muted); }
+
+/* booking page once booked: the bar fills, the thank-you content appears under the calendar */
+.progress__bar span { transition: width 600ms var(--ease-out); }
+.booked { margin-top: clamp(1.5rem, 4vw, 2.5rem); animation: step-in 420ms var(--ease-out); }
+.booked[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .booked { animation: none; } .progress__bar span { transition: none; } }

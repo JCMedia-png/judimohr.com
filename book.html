@@ -24,16 +24,50 @@
   <span class="wordmark"><span>Money Confidence</span> <span class="wordmark__with">with Judi</span></span>
 </header>
 <main class="page" id="main"><div class="page__inner">
-  <div class="progress">
+  <div class="progress" data-progress>
     <div class="progress__bar" aria-hidden="true"><span></span></div>
-    <p class="progress__label">Almost done</p>
+    <p class="progress__label" data-progress-label>Almost done</p>
   </div>
-  <h1 class="page__title"><strong>Last step:</strong> pick a time for your complimentary conversation with Judi.</h1>
-  <p class="page__note">Note: Judi keeps a small number of times open each week and they fill quickly. If you can’t find a time that works, check back tomorrow, when more times should open up.</p>
+  <h1 class="page__title" data-book-title><strong>Last step:</strong> pick a time for your complimentary conversation with Judi.</h1>
+  <p class="page__note" data-book-note>Note: Judi keeps a small number of times open each week and they fill quickly. If you can’t find a time that works, check back tomorrow, when more times should open up.</p>
+  <script>
+    // OnceHub (ScheduleOnce Classic) calls this on the parent page when a booking is made.
+    // Defined before the embed code, as OnceHub's docs ask.
+    function SOAfterConfirmationFunction(data) {
+      if (data && data.errorStatus && data.errorStatus !== 0) return;
+      if (window.judiBooked) window.judiBooked(data);
+      else window.__judiBookedData = data || {};
+    }
+  </script>
   <div class="booking">
-    <iframe src="https://go.oncehub.com/JudiMohr" title="Pick a time with Judi Mohr" loading="eager"></iframe>
+    <!-- ScheduleOnce embed START -->
+    <div id="SOIDIV_JudiMohr" data-so-page="JudiMohr" data-height="900" data-style="border: 0px solid #ffffff; min-width: 290px;" data-psz="01"></div>
+    <script type="text/javascript" src="https://cdn.oncehub.com/mergedjs/so.js"></script>
+    <!-- ScheduleOnce embed END -->
   </div>
-  <p class="page__note">Trouble seeing the calendar? <a class="link-plain" href="https://go.oncehub.com/JudiMohr">Open it in a new page</a>, or call <a class="link-plain" href="tel:+18035477526">803-547-7526</a>.</p>
+  <p class="page__note" data-book-help>Trouble seeing the calendar? <a class="link-plain" href="https://go.oncehub.com/JudiMohr">Open it in a new page</a>, or call <a class="link-plain" href="tel:+18035477526">803-547-7526</a>.</p>
+
+  <!-- Shown once the booking is made (same content as thanks.html) -->
+  <section class="booked" data-booked hidden>
+  <div class="heads-up">
+    <h2>A heads up before we talk</h2>
+    <p>You’ve probably noticed this in your own life: the people who get the most out of any kind of help are the ones who show up ready to be honest about where things stand, even when it feels messy. Those are the women I do my best work with.</p>
+    <p>If you’d rather keep things hidden, or you’re only looking for a hot tip, I’m probably not the right fit, and that’s okay. But if you’re ready to see the whole picture, I can’t wait to meet you.</p>
+  </div>
+  <div class="heads-up bring">
+    <h2>One thing that will help you get the most from our time</h2>
+    <p>If it’s easy, make a simple list of the accounts you know about: retirement accounts, savings, pensions, insurance policies. It doesn’t need to be complete or organized. Finding everything can be the first thing we do together.</p>
+    <p>If someone else is involved in your money decisions, a spouse, a partner or an adult child, you’re welcome to bring them. It saves you time later passing everything along.</p>
+  </div>
+  <section class="faq faq--grouped" style="padding-inline:0">
+    <h2 class="faq__title" style="font-size:var(--step-lead)">The most common questions</h2>
+    <div class="faq__list" style="margin-top:1.25rem">
+      <details class="faq__item"><summary><span>What happens in the complimentary conversation?</span><span class="chev" aria-hidden="true"></span></summary><div class="faq__a"><p>We’ll sit down, talk through where you are and where you want to go, and you’ll leave with a clear picture of where you stand. No pressure, no jargon, just clarity.</p></div></details>
+      <details class="faq__item"><summary><span>Do I need to have everything organized first?</span><span class="chev" aria-hidden="true"></span></summary><div class="faq__a"><p>No. You do not need to solve your whole financial life today. Start with the question that is creating the most uncertainty.</p></div></details>
+      <details class="faq__item"><summary><span>What if I don’t know the right questions to ask?</span><span class="chev" aria-hidden="true"></span></summary><div class="faq__a"><p>You’re not bad with money. Nobody ever took the time to explain it to you in a way that made sense. That’s what I’m here for.</p></div></details>
+    </div>
+  </section>
+  </section>
 </div></main>
 
 <footer class="site-footer" id="contact">
