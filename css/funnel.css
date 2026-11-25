@@ -128,3 +128,90 @@
 .vsl--soon img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85); }
 .vsl__soon { position: absolute; inset: auto 0 0 0; display: flex; justify-content: center; padding: clamp(0.75rem, 3vw, 1.5rem); background: linear-gradient(to top, rgb(33 41 48 / 70%), transparent); }
 .vsl__soon span { padding: 0.55rem 1.1rem; border-radius: 999px; background: var(--dark); color: var(--on-dark); font-size: var(--step-small); font-weight: 600; }
+
+/* =====================================================================
+   CENTERED LAYOUT (Joey's house style, as on Paul's and the other pages):
+   one centered column, everything centered, cards included. 18px minimum
+   reading text on phones.
+   ===================================================================== */
+@media (max-width: 40em) {
+  :root { --step-small: 1.125rem; }
+}
+
+/* hero: one column, video then the questions */
+.top { text-align: center; }
+.top .eyebrow, .top__title, .top__sub { margin-inline: auto; }
+.top__title { max-width: 24ch; }
+.top__grid { grid-template-columns: minmax(0, 1fr) !important; max-width: 46rem; margin-inline: auto; }
+.top__film { max-width: 44rem; width: 100%; margin-inline: auto; }
+.vsl { box-shadow: 0 0 0 4px var(--white), 0 12px 36px rgb(33 41 48 / 16%); }
+.apply { max-width: 38rem; width: 100%; margin-inline: auto; }
+.apply__cta { max-width: 34ch; margin-inline: auto; font-size: var(--step-lead); }
+.survey { text-align: center; }
+.qstep legend { width: 100%; text-align: center; }
+.opt { justify-content: center; text-align: center; }
+.opt input { position: absolute; left: 1rem; }
+.opt span { padding-inline: 1.75rem; }
+.opts-2 .opt span { padding-inline: 1.25rem 0; }
+.infield { text-align: left; }
+.survey__nav { text-align: center; }
+@media (min-width: 62.5em) {
+  .top__title { max-width: 26ch; }
+}
+
+/* how it works: centered slides, picture above the words */
+.how2 { text-align: center; }
+.how2__row, .how2__row--flip { grid-template-columns: minmax(0, 1fr) !important; justify-items: center; max-width: 44rem; margin-inline: auto; }
+.how2__row--flip .how2__img { order: -1; }
+.how2__row .how2__img { order: -1; max-width: 34rem; }
+.ticks { justify-items: center; }
+.ticks li { padding-left: 0; }
+.ticks li::before { position: static; display: block; margin: 0 auto 0.4rem; }
+
+/* FAQ: centered cards */
+.faq--grouped { display: block; text-align: center; }
+.faq--grouped .faq__list { max-width: 46rem; margin-inline: auto; }
+.faq--grouped .faq__item { margin: 0 0 0.6rem; padding: 0 clamp(1rem, 3vw, 1.5rem); border-radius: var(--radius); background: var(--white); box-shadow: 0 1px 2px rgb(33 41 48 / 6%), 0 6px 20px rgb(33 41 48 / 6%); }
+.faq--grouped .faq__item summary { justify-content: center; text-align: center; }
+.faq--grouped .faq__a p { margin-inline: auto; }
+.faq__group { text-align: center; }
+
+/* who it's for: centered cards */
+.who { text-align: center; }
+.who__list { max-width: 56rem; margin-inline: auto; }
+.who__list li { background: var(--white); box-shadow: 0 1px 2px rgb(33 41 48 / 6%), 0 6px 20px rgb(33 41 48 / 6%); }
+
+/* experience: centered figures */
+.proof { text-align: center; }
+.proof .grid, .about .grid { display: block; }
+.figures { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); max-width: 60rem; margin-inline: auto; }
+.figure { grid-template-columns: 1fr; justify-items: center; row-gap: 0.3rem; }
+.figure dd { margin-inline: auto; }
+.proof__note p { margin-inline: auto; }
+.proof__links { justify-items: center; }
+
+/* why I do this: photo above, centered story */
+.about { text-align: center; }
+.about__bio { max-width: 44rem; margin-inline: auto; }
+.about__portrait { float: none; display: block; width: 9rem; height: 9rem; margin: 0 auto 1.25rem; border-radius: 50%; box-shadow: 0 8px 24px rgb(33 41 48 / 14%); }
+.about__quote { margin-inline: auto; }
+
+/* footer: centered */
+.site-footer { text-align: center; }
+.footer__top, .footer__meta { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; justify-items: center; }
+.footer__top > *, .footer__meta > * { grid-column: auto !important; justify-self: center !important; }
+.footer__top p { max-width: 40ch; }
+.footer__social { justify-content: center; }
+.footer__legal { columns: auto; max-width: 52rem; margin-inline: auto; }
+.footer__legal p { margin-inline: auto; }
+
+/* booking, thank-you, not-a-fit pages */
+.page { text-align: center; }
+.progress { margin-inline: auto; }
+.page__title, .page__note, .heads-up p { margin-inline: auto; }
+.page .faq--grouped .faq__title { text-align: center; }
+@media (min-width: 62.5em) {
+  .top__film { max-width: 38rem; }
+  .top__grid { gap: 1.75rem; margin-top: 1.5rem; }
+  .top__sub { margin-top: 0.8rem; }
+}
