@@ -110,14 +110,42 @@
     if (phone.value.replace(/\D/g, '').length < 10) return fail('Please add a phone number with area code.', phone);
 
     form.classList.add('is-sending');
-    // No form backend yet (the site is static on GitHub Pages). Set data-endpoint to a form
-    // service URL, or to apply.php on PHP hosting, to start receiving the answers.
+    // Answers are emailed to Judi through FormSubmit (data-endpoint). The site is static on
+    // GitHub Pages, so it has no server of its own.
     const endpoint = form.dataset.endpoint;
     if (endpoint) {
+      const v = (key) => (form.elements[key] ? String(form.elements[key].value || '').trim() : '');
+      // Brandon's red flag test: C and D are tagged, not blocked, until a quarter of data says otherwise.
+      const redFlag = /^[CD]:/.test(v('approach'));
+      const payload = {
+        _subject: `${redFlag ? '[Red flag] ' : ''}New application from judimohr.com: ${v('name')}`,
+        _template: 'table',
+        _captcha: 'false',
+        _replyto: v('email'),
+        _honey: v('website'),
+        Name: v('name'),
+        Email: v('email'),
+        Phone: v('phone'),
+        Situation: v('situation'),
+        'Planning to retire': v('retire'),
+        State: v('state'),
+        'Saved and invested': v('assets'),
+        'Approach (red flag test)': v('approach'),
+        'Red flag': redFlag ? 'Yes: picked C or D. Brandon found these show and buy at about half the rate. Not blocked.' : 'No',
+        Next: 'They were sent to the booking page. If no booking shows up in OnceHub within a day, give them a call.',
+      };
       try {
-        await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const controller = new AbortController();
+        const timer = window.setTimeout(() => controller.abort(), 6000);
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        window.clearTimeout(timer);
       } catch (e) {
-        // Never stop someone from booking because of a network hiccup.
+        // Never stop someone from booking because of a network hiccup or a slow form service.
       }
     }
     // Meta pixel goes here later: fire Lead only for qualified answers (Brandon: pixel conditioning).
