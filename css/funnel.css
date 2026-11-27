@@ -253,7 +253,7 @@ body {
 .vsl__disc svg { margin-left: 8%; }
 .vsl--yt[data-state="paused"] .vsl__cover, .vsl--yt[data-state="loading"] .vsl__cover { background: rgb(33 41 48 / 35%); }
 .vsl--yt[data-state="paused"] .vsl__disc { opacity: 1; transform: none; }
-.vsl--yt[data-state="loading"] .vsl__cover { background: #000 url("../img/judi-video-poster.jpg") center / cover no-repeat; }
+.vsl--yt[data-state="loading"] .vsl__cover { background: #000 url("../img/vsl-poster-2026-11.jpg") center / cover no-repeat; }
 .vsl--yt .vsl__sound { z-index: 2; pointer-events: none; }
 .vsl--yt .vsl__sound > span { pointer-events: auto; }
 .vsl__end { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 1rem; padding: var(--margin); background: linear-gradient(160deg, #2C3843 0%, var(--dark) 60%, #171D22 100%); color: var(--on-dark); text-align: center; }
